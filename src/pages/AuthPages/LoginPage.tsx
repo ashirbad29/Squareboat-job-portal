@@ -1,5 +1,8 @@
+import cx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
+import Button from '../../components/Button';
 import Header from '../../components/Header';
 
 type inputFormTypes = {
@@ -31,14 +34,20 @@ const LoginPage = () => {
             Email Address
           </label>
           <input
-            className="mb-5 outline-none px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky"
+            className={cx(
+              'outline-none px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky',
+              { '!border-red-400': errors.email }
+            )}
             placeholder="Enter your email"
             type="text"
             autoComplete="off"
             {...register('email', { required: true })}
           />
+          {errors.email && (
+            <span className="text-xs text-red-400 h-0">can&apos;t be empty</span>
+          )}
 
-          <div className="w-full flex justify-between">
+          <div className="w-full flex justify-between mt-5">
             <label htmlFor="password" className="text-sm mb-1">
               Password
             </label>
@@ -47,16 +56,23 @@ const LoginPage = () => {
           <input
             type="text"
             placeholder="Enter your password"
-            className="outline-none px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky"
+            className={cx(
+              'outline-none px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky',
+              { '!border-red-400': errors.password }
+            )}
             {...register('password', { required: true })}
           />
+          {errors.password && (
+            <span className="text-xs text-red-400 h-0">can&apos;t be empty</span>
+          )}
 
-          <button className="bg-primary-sky self-center text-white text-sm mt-6 px-8 py-1 rounded hover:bg-primary-sky/80 transition-all">
-            Login
-          </button>
+          <Button className="self-center mt-6 !px-8">Login</Button>
 
           <div className="mt-6 text-center text-sm">
-            New to MyJobs?<span className="text-primary-sky">Create an account</span>
+            New to MyJobs?
+            <Link to="/signup" className="text-primary-sky">
+              Create an account
+            </Link>
           </div>
         </form>
       </Header>
