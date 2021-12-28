@@ -13,3 +13,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.linear-gradient-stuff {
+  background: transparent linear-gradient(253deg, #303f60 0%, #1a253c 100%) 0% 0%
+    no-repeat padding-box;
+}
