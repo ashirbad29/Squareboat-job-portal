@@ -6,7 +6,7 @@ import { cardData } from '../data/landingPageCardData';
 const LandingPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header>
+      <Header variant="lg">
         <div className="w-full flex gap-10 justify-between">
           <div className="mt-20">
             <h1 className="text-5xl max-w-xs leading-10 tracking-wide">Welcome to </h1>
