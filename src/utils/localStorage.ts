@@ -7,3 +7,7 @@ export const getFromLocalStorage = (key: string) => {
   if (!storedValue) return null;
   return JSON.parse(storedValue);
 };
+
+export const removeFromLocalStorage = (key: string) => {
+  window.localStorage.removeItem(key);
+};
