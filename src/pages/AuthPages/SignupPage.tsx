@@ -104,6 +104,7 @@ const SignupPage = () => {
                   { '!border-red-400': errors.password }
                 )}
                 {...register('password', { required: true })}
+                autoComplete="off"
               />
               {errors.password && (
                 <span className="inline-block ml-auto text-xs text-red-400 h-0">
@@ -124,6 +125,7 @@ const SignupPage = () => {
                   { '!border-red-400': errors.confirmPassword }
                 )}
                 {...register('confirmPassword', { required: true })}
+                autoComplete="off"
               />
               {errors.confirmPassword && (
                 <span className="inline-block ml-auto text-xs text-red-400 h-0">
@@ -132,6 +134,19 @@ const SignupPage = () => {
               )}
             </div>
           </div>
+
+          <label htmlFor="email" className="text-sm mb-1 mt-4">
+            Skills
+          </label>
+          <input
+            className={cx(
+              'outline-none px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky'
+            )}
+            placeholder="Enter comma separated skills"
+            type="text"
+            autoComplete="off"
+            {...register('email', { required: false })}
+          />
 
           <Button className="self-center mt-6 !px-8 rounded">Signup</Button>
 
