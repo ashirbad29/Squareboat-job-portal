@@ -4,6 +4,7 @@ import ForgotPassword from './pages/AuthPages/ForgotPassword';
 import LoginPage from './pages/AuthPages/LoginPage';
 import ResetPassword from './pages/AuthPages/ResetPassword';
 import SignupPage from './pages/AuthPages/SignupPage';
+import JobPostPage from './pages/JobPostPage';
 import LandingPage from './pages/Landing';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="signup" element={<SignupPage />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="post-job" element={<JobPostPage />} />
         </Routes>
       </main>
     </BrowserRouter>

@@ -24,7 +24,7 @@ const ResetPassword = () => {
         <form
           onSubmit={handleSubmit(onSubmit)}
           style={{ boxShadow: '0px 30px 36px #557DA526' }}
-          className="absolute -bottom-2/3 p-6 rounded-xl flex flex-col w-full max-w-sm bg-gray-100 text-not-dark-blue">
+          className="absolute top-2/4 p-6 rounded-xl flex flex-col w-full max-w-sm bg-gray-100 text-not-dark-blue">
           <span className="font-semibold mb-2">Reset Your Password</span>
           <span className="text-sm mb-3">Enter your new password below.</span>
 
