@@ -39,7 +39,7 @@ const NavBar = () => {
       {auth.isLoggedIn && (
         <div className="flex gap-8 items-center">
           <Link
-            to="/post-job"
+            to="/home/post-job"
             className={clsx('text-sm text-light-sky', {
               'border-b-2 border-primary-sky': isOnJobPostPage,
             })}>

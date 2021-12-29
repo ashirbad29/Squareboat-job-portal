@@ -1,6 +1,8 @@
 import cx from 'clsx';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
+import BreadCrumbs from './Breadcrumbs';
 import NavBar from './NavBar';
 
 type HeaderPropTypes = {
@@ -20,6 +22,9 @@ const Header: React.FC<HeaderPropTypes> = ({
     lg: 'h-80',
   }[variant];
 
+  const location = useLocation();
+  console.log(location);
+
   return (
     <div
       className={cx(
@@ -27,6 +32,7 @@ const Header: React.FC<HeaderPropTypes> = ({
         heightClassName
       )}>
       <NavBar />
+      <BreadCrumbs />
       <section className={cx('w-full mx-auto max-w-4xl flex-1', className)}>
         {children}
       </section>

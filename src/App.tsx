@@ -28,7 +28,7 @@ function App() {
             }
           />
           <Route
-            path="post-job"
+            path="/home/post-job"
             element={
               <PrivateRoute>
                 <JobPostPage />
