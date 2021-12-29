@@ -1,12 +1,13 @@
 import cx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
-// import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Header from '../components/Header';
+import { postJob } from '../services/jobs.service';
 
 type inputFormTypes = {
-  jobTitle: string;
+  title: string;
   description: string;
   location: string;
 };
@@ -15,10 +16,23 @@ const JobPostPage = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<inputFormTypes>();
 
-  const onSubmit: SubmitHandler<inputFormTypes> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<inputFormTypes> = (jobDetails) => {
+    toast.promise(postJob(jobDetails), {
+      success: () => {
+        reset();
+        return 'Job posted';
+      },
+      loading: 'posting your job...',
+      error: (e: any) => {
+        console.log(e.response.data.message);
+        return e.response.data.message;
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-light-sky">
@@ -35,12 +49,12 @@ const JobPostPage = () => {
           <input
             className={cx(
               'outline-none px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky',
-              { '!border-red-400': errors.jobTitle }
+              { '!border-red-400': errors.title }
             )}
             placeholder="Enter job title"
             type="text"
             autoComplete="off"
-            {...register('jobTitle', { required: true })}
+            {...register('title', { required: true })}
           />
 
           <label htmlFor="description" className="text-sm mb-1 mt-3">
@@ -70,7 +84,7 @@ const JobPostPage = () => {
             autoComplete="off"
             {...register('location', { required: true })}
           />
-          {(errors.description || errors.jobTitle || errors.location) && (
+          {(errors.description || errors.title || errors.location) && (
             <span className="inline-block ml-auto text-xs text-red-400 h-0">
               all fields are mandatory
             </span>
