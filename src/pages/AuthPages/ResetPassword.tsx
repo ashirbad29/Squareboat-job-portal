@@ -1,8 +1,11 @@
 import cx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import { resetPassword } from '../../services/auth.service';
 
 type inputFormTypes = {
   newPassword: 'string';
@@ -15,8 +18,29 @@ const ResetPassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<inputFormTypes>();
+  const { state: prevState }: any = useLocation();
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<inputFormTypes> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<inputFormTypes> = async (newCreds) => {
+    toast.promise(
+      resetPassword({
+        password: newCreds.newPassword,
+        confirmPassword: newCreds.confirmPassword,
+        token: prevState.token || '',
+      }),
+      {
+        loading: 'Resetting password...',
+        success: () => {
+          navigate('../login', { replace: true });
+          return 'password reset sucessfull';
+        },
+        error: (e) => {
+          console.log(e.response.data.message);
+          return e.response.data.message;
+        },
+      }
+    );
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-light-sky">
@@ -37,7 +61,7 @@ const ResetPassword = () => {
               { '!border-red-400': errors.newPassword }
             )}
             placeholder="Enter your password"
-            type="text"
+            type="password"
             autoComplete="off"
             {...register('newPassword', { required: true })}
           />
@@ -56,7 +80,7 @@ const ResetPassword = () => {
               { '!border-red-400': errors.confirmPassword }
             )}
             placeholder="Enter your password"
-            type="text"
+            type="password"
             autoComplete="off"
             {...register('confirmPassword', { required: true })}
           />

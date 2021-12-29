@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Header from '../../components/Header';
-import { registerUser } from '../../services/auth';
+import { registerUser } from '../../services/auth.service';
 import { login } from '../../state/authSlice';
 import { useAppDispatch } from '../../state/hooks';
 import { RegisterUser } from '../../types/auth';

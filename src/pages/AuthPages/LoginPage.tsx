@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Header from '../../components/Header';
-import { loginUser } from '../../services/auth';
+import { loginUser } from '../../services/auth.service';
 import { login } from '../../state/authSlice';
 import { useAppDispatch } from '../../state/hooks';
 import { saveToLocalStoage } from '../../utils/localStorage';
@@ -18,6 +18,7 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<inputFormTypes>();
   const dispatch = useAppDispatch();
@@ -33,8 +34,10 @@ const LoginPage = () => {
       dispatch(login({ user: userData, authorization: token }));
       // @ts-ignore
       navigate(state?.path || '../home', { replace: true });
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      setError('password', {
+        message: e.response.data.message || 'something went wrong',
+      });
     }
   };
 
@@ -53,7 +56,7 @@ const LoginPage = () => {
           <input
             className={cx(
               'outline-none px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky',
-              { '!border-red-400': errors.email }
+              { '!border-red-400': errors.email || errors.password?.message }
             )}
             placeholder="Enter your email"
             type="text"
@@ -61,7 +64,9 @@ const LoginPage = () => {
             {...register('email', { required: true })}
           />
           {errors.email && (
-            <span className="text-xs text-red-400 h-0">can&apos;t be empty</span>
+            <span className="inline-block ml-auto text-xs text-red-400 h-0">
+              can&apos;t be empty
+            </span>
           )}
 
           <div className="w-full flex justify-between mt-5">
@@ -82,7 +87,9 @@ const LoginPage = () => {
             {...register('password', { required: true })}
           />
           {errors.password && (
-            <span className="text-xs text-red-400 h-0">can&apos;t be empty</span>
+            <span className="inline-block ml-auto text-xs text-red-400 h-0">
+              {errors.password.message || `this can't be empty`}
+            </span>
           )}
 
           <Button className="self-center mt-6 !px-8">Login</Button>

@@ -19,3 +19,9 @@ export type authState = {
   user: loggedInUser | null;
   authorization: null | string;
 };
+
+export type resetPassowrdInput = {
+  password: string;
+  confirmPassword: string;
+  token: string;
+};

@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import PrivateRoute from './components/PrivateRoute';
@@ -39,6 +40,7 @@ function App() {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password" element={<ResetPassword />} />
         </Routes>
+        <Toaster position="top-right" />
       </main>
     </BrowserRouter>
   );

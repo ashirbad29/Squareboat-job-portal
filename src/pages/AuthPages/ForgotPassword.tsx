@@ -1,9 +1,10 @@
 import cx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-// import { Link } from 'react-router-dom';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import { getResetPasswordToken } from '../../services/auth.service';
 
 type inputFormTypes = {
   email: 'string';
@@ -13,10 +14,21 @@ const ForgotPassword = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<inputFormTypes>();
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<inputFormTypes> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<inputFormTypes> = async (data) => {
+    try {
+      const token = await getResetPasswordToken(data.email);
+      navigate('../reset-password', { replace: true, state: { token } });
+    } catch (e: any) {
+      setError('email', {
+        message: e.response?.data?.message || 'something went wrong!',
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-light-sky">
@@ -47,7 +59,7 @@ const ForgotPassword = () => {
           />
           {errors.email && (
             <span className="inline-block ml-auto  text-xs text-red-400 h-0">
-              can&apos;t be empty
+              {errors.email.message || `can&apos;t be empty`}
             </span>
           )}
 
