@@ -1,28 +1,42 @@
 import cx from 'clsx';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import { registerUser } from '../../services/auth';
+import { login } from '../../state/authSlice';
+import { useAppDispatch } from '../../state/hooks';
+import { RegisterUser } from '../../types/auth';
+import { saveToLocalStoage } from '../../utils/localStorage';
 
-type inputFormTypes = {
-  fullName: 'string';
-  email: 'string';
-  password: 'string';
-  confirmPassword: 'string';
-  skills: 'string';
-};
+type registerUserFormType = Omit<RegisterUser, 'userRole'>;
 
 const SignupPage = () => {
+  const [userType, setUserType] = useState<'recruiter' | 'candidate'>('recruiter');
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<inputFormTypes>();
+  } = useForm<registerUserFormType>();
+  const dispatch = useAppDispatch();
 
-  const onSubmit: SubmitHandler<inputFormTypes> = (data) => console.log(data);
-  const [userType, setUserType] = useState<'recruiter' | 'candidate'>('recruiter');
+  const onSubmit: SubmitHandler<registerUserFormType> = async (userInput) => {
+    const userRole = userType === 'recruiter' ? 0 : 1;
+    try {
+      const data = await registerUser({ ...userInput, userRole });
+      saveToLocalStoage('auth-user', data);
+      const { token, ...userData } = data;
+
+      dispatch(login({ user: userData, authorization: token }));
+      navigate('../home', { replace: true });
+      console.log(data);
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-light-sky">
@@ -37,6 +51,7 @@ const SignupPage = () => {
           <div className="flex gap-4 mb-4">
             <Button
               onClick={() => setUserType('recruiter')}
+              type="button"
               className={cx({
                 'bg-gray-100 text-not-dark-blue ring-1 ring-gray-300 hover:bg-gray-300 !transition-colors':
                   userType !== 'recruiter',
@@ -45,6 +60,7 @@ const SignupPage = () => {
             </Button>
             <Button
               onClick={() => setUserType('candidate')}
+              type="button"
               className={cx({
                 'bg-gray-100 text-not-dark-blue ring-1 ring-gray-300 hover:bg-gray-300 !transition-colors':
                   userType !== 'candidate',
@@ -59,14 +75,14 @@ const SignupPage = () => {
           <input
             className={cx(
               'outline-none px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky',
-              { '!border-red-400': errors.fullName }
+              { '!border-red-400': errors.name }
             )}
             placeholder="Enter your full name"
             type="text"
             autoComplete="off"
-            {...register('fullName', { required: true })}
+            {...register('name', { required: true })}
           />
-          {errors.fullName && (
+          {errors.name && (
             <span className="inline-block ml-auto text-xs text-red-400 h-0">
               The field is mandatory.
             </span>
@@ -97,7 +113,7 @@ const SignupPage = () => {
                 Password
               </label>
               <input
-                type="text"
+                type="password"
                 placeholder="Enter your password"
                 className={cx(
                   'outline-none w-full px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky',
@@ -118,7 +134,7 @@ const SignupPage = () => {
                 confirm password
               </label>
               <input
-                type="text"
+                type="password"
                 placeholder="Enter your password"
                 className={cx(
                   'outline-none w-full px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky',
@@ -145,10 +161,12 @@ const SignupPage = () => {
             placeholder="Enter comma separated skills"
             type="text"
             autoComplete="off"
-            {...register('email', { required: false })}
+            {...register('skills', { required: false })}
           />
 
-          <Button className="self-center mt-6 !px-8 rounded">Signup</Button>
+          <Button type="submit" className="self-center mt-6 !px-8 rounded">
+            Signup
+          </Button>
 
           <div className="mt-6 text-center text-sm">
             Have an Account?
