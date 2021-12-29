@@ -3,3 +3,5 @@ export type jobPostType = {
   description: string;
   location: string;
 };
+
+export type jobType = jobPostType & { id: string };

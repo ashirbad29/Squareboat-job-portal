@@ -3,4 +3,5 @@ export const API_ENDPOINTS = {
   REGISTER: `/auth/register`,
   RESET_PASSWORD: `/auth/resetpassword`,
   JOBS: '/jobs',
+  RECRUITER_POSTED_JOBS: '/recruiters/jobs',
 };
