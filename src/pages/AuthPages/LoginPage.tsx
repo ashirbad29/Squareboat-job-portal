@@ -1,13 +1,17 @@
 import cx from 'clsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import { loginUser } from '../../services/auth';
+import { login } from '../../state/authSlice';
+import { useAppDispatch } from '../../state/hooks';
+import { saveToLocalStoage } from '../../utils/localStorage';
 
 type inputFormTypes = {
-  email: 'string';
-  password: 'string';
+  email: string;
+  password: string;
 };
 
 const LoginPage = () => {
@@ -16,10 +20,23 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<inputFormTypes>();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { state } = useLocation();
 
-  const onSubmit: SubmitHandler<inputFormTypes> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<inputFormTypes> = async (userCredentials) => {
+    try {
+      const data = await loginUser(userCredentials);
+      saveToLocalStoage('auth-user', data);
+      const { token, ...userData } = data;
 
-  console.log(errors);
+      dispatch(login({ user: userData, authorization: token }));
+      // @ts-ignore
+      navigate(state?.path || '../home', { replace: true });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-light-sky">
@@ -56,7 +73,7 @@ const LoginPage = () => {
             </Link>
           </div>
           <input
-            type="text"
+            type="password"
             placeholder="Enter your password"
             className={cx(
               'outline-none px-2 py-1 text-sm border border-gray-300 rounded bg-transparent focus:border-primary-sky',

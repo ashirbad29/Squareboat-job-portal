@@ -32,7 +32,6 @@ const SignupPage = () => {
 
       dispatch(login({ user: userData, authorization: token }));
       navigate('../home', { replace: true });
-      console.log(data);
     } catch (e: any) {
       console.log(e);
     }

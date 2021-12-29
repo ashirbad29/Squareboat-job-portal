@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import heroImage from '../../assests/hero-image.jpg';
 import Header from '../components/Header';
 import { companiesData } from '../data/companies';
@@ -14,9 +16,11 @@ const LandingPage = () => {
               My<span className="text-primary-sky">Jobs</span>
             </h1>
 
-            <button className="bg-primary-sky mt-6 px-4 py-1 rounded hover:bg-primary-sky/80 transition-all">
+            <Link
+              to="/home"
+              className="inline-block bg-primary-sky mt-6 px-4 py-1 rounded hover:bg-primary-sky/80 transition-all">
               Get Started
-            </button>
+            </Link>
           </div>
           <div className="h-72 mt-12 z-10 hidden md:block">
             <img
