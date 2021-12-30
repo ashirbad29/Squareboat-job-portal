@@ -29,7 +29,9 @@ const BreadCrumbs = () => {
         routeResolved = routeResolved.concat(`/${currRoute?.key}`);
 
         return (
-          <div key={route} className="text-sm text-gray-300 flex items-center">
+          <div
+            key={route}
+            className="text-sm text-gray-300 hover:text-gray-400 transition-all flex items-center">
             {currRoute?.key === 'home' && <HomeIcon className="h-4 w-4 mr-1" />}
             <Link to={`${routeResolved}` || '/home'}>{currRoute?.label}</Link>
             {idx !== currRoutes.length - 1 && (

@@ -88,7 +88,7 @@ const HomePage = () => {
               })}>
               <ChevronLeft className="h-5 w-5" />
             </span>
-            <span className="h-6 w-6 flex items-center justify-center text-center cursor-pointer bg-sky-300/70 rounded">
+            <span className="h-6 w-6 flex items-center justify-center text-center cursor-pointer bg-sky-300/70 hover:bg-sky-300 transition-all rounded">
               {pagination.currPage}
             </span>
             <span

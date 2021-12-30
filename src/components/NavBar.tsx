@@ -17,7 +17,7 @@ const NavBar = () => {
     () => location.pathname !== '/login' && location.pathname !== '/signup',
     [location.pathname]
   );
-  const isOnJobPostPage = location.pathname === '/post-job';
+  const isOnJobPostPage = location.pathname === '/home/post-job';
 
   const handleLogout = () => {
     dispatch(logout());
@@ -27,7 +27,7 @@ const NavBar = () => {
 
   return (
     <nav className="w-full max-w-5xl py-3 mx-auto flex items-center justify-between border-b border-white/30">
-      <Link to="/" className="font-semibold text-lg">
+      <Link to="/" className="font-semibold text-lg active:ring-2 rounded-md">
         My<span className="text-primary-sky">Jobs</span>
       </Link>
       {showLoginSignupBtn && !auth.isLoggedIn && (
@@ -42,15 +42,18 @@ const NavBar = () => {
         <div className="flex gap-8 items-center">
           <Link
             to="/home/post-job"
-            className={clsx('text-sm text-light-sky', {
-              'border-b-2 border-primary-sky': isOnJobPostPage,
-            })}>
+            className={clsx(
+              'text-sm text-light-sky px-2 py-1 hover:rounded-md hover:bg-dark-blue/40 transition-all',
+              {
+                'border-b-2 border-primary-sky': isOnJobPostPage,
+              }
+            )}>
             Post a job
           </Link>
           <div className="relative">
             <div
               onClick={() => setDropdownVisible((s) => !s)}
-              className="h-8 w-8 rounded-full bg-light-sky text-not-dark-blue text-sm flex items-center justify-center cursor-pointer">
+              className="h-8 w-8 rounded-full bg-light-sky text-not-dark-blue text-sm flex items-center justify-center cursor-pointer hover:ring-2 ring-primary-sky transition-all">
               {auth.user?.name.charAt(0).toUpperCase() || 'X'}
             </div>
             {dropdownVisible && (

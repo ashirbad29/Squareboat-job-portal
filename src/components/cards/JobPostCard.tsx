@@ -22,7 +22,7 @@ const JobPostCard = (props: propTypes) => {
         </div>
         <button
           onClick={onViewApplication}
-          className="text-sm bg-sky-200 px-2 py-1 rounded">
+          className="text-sm bg-sky-200 px-2 py-1 rounded hover:bg-sky-300 transition-all">
           view applications
         </button>
       </div>
