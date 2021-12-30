@@ -10,9 +10,11 @@
     "lint": "yarn lint:format && yarn lint:fix "
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.2",
     "@reduxjs/toolkit": "^1.7.1",
     "axios": "^0.24.0",
     "clsx": "^1.1.1",
+    "framer-motion": "^5.5.5",
     "history": "5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

@@ -15,3 +15,11 @@ export const getJobsByUser = async (pageNo: number) => {
   });
   return { data: data.data.data, meta: data.data.metadata };
 };
+
+export const getApplications = async (jobId: string, pageNo?: number) => {
+  const { data } = await axios.get(
+    `${API_ENDPOINTS.RECRUITER_POSTED_JOBS}/${jobId}/candidates`
+  );
+
+  return data.data;
+};

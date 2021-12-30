@@ -1,12 +1,15 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 import { ChevronLeft, ChevronRight, LocationIcon } from '../assets/icons';
+import ApplicationModal from '../components/ApplicatIonsModal';
 import Button from '../components/Button';
 import Header from '../components/Header';
 import { getJobsByUser } from '../services/jobs.service';
 import { jobType } from '../types/jobs';
+import { getTotalPage, truncateString } from '../utils/misc';
 
 const HomePage = () => {
   const [jobs, setJobs] = useState<jobType[]>();
@@ -17,35 +20,49 @@ const HomePage = () => {
     limit: 1,
     totalPage: 1,
   });
-
-  const getTotalPage = (totalRecords: number, limit: number) => {
-    return Math.floor(totalRecords / limit) + (totalRecords % limit ? 1 : 0);
-  };
+  const [modalState, setModalState] = useState({ isOpen: false, activeJobId: '' });
 
   useEffect(() => {
     const fetchJobs = async () => {
-      setLoading(true);
-      const { data, meta } = await getJobsByUser(pagination.currPage);
-      setPagination({
-        ...pagination,
-        total: meta.count,
-        limit: meta.limit,
-        totalPage: getTotalPage(meta.count, meta.limit),
-      });
-      setJobs(data);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const { data, meta } = await getJobsByUser(pagination.currPage);
+        setPagination({
+          ...pagination,
+          total: meta.count,
+          limit: meta.limit,
+          totalPage: getTotalPage(meta.count, meta.limit),
+        });
+        setJobs(data);
+        setLoading(false);
+      } catch (e: any) {
+        toast.error(e.response?.data.message || 'something went wrong');
+      }
     };
 
     fetchJobs();
   }, [pagination.currPage]);
 
-  function truncateString(str: string, num: number) {
-    if (str.length > num) {
-      return str.slice(0, num) + '...';
-    } else {
-      return str;
-    }
-  }
+  // const fetchCandidatesApplied = () => {
+  //   if (!modalState.activeJobId) return;
+
+  //   toast.promise(getApplications(modalState.activeJobId), {
+  //     success: (data) => {
+  //       console.log(data);
+  //       return 'sucess';
+  //     },
+  //     error: (e) => {
+  //       return e.response.data.message || 'something went wrong';
+  //     },
+  //     loading: 'fetching candidates...',
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   if (modalState.activeJobId) {
+  //     fetchCandidatesApplied();
+  //   }
+  // }, [modalState.activeJobId]);
 
   return (
     <div className="relative min-h-screen overflow-auto flex flex-col items-center bg-light-sky">
@@ -70,7 +87,9 @@ const HomePage = () => {
                       {truncateString(job.location, 8)}
                     </span>
                   </div>
-                  <button className="text-sm bg-sky-200 px-2 py-1 rounded">
+                  <button
+                    onClick={() => setModalState({ isOpen: true, activeJobId: job.id })}
+                    className="text-sm bg-sky-200 px-2 py-1 rounded">
                     view applications
                   </button>
                 </div>
@@ -110,6 +129,13 @@ const HomePage = () => {
           </div>
         )}
       </section>
+
+      <ApplicationModal
+        isOpen={modalState.isOpen}
+        onClose={() => setModalState((s) => ({ ...s, isOpen: false }))}
+        jobId={modalState.activeJobId}
+      />
+
       <div className="flex-1 min-h-full flex items-center justify-center">
         {!loading && (!jobs || jobs.length === 0) && (
           <div className="flex flex-col  items-center">
