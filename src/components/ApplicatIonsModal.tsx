@@ -13,25 +13,89 @@ type modalPropType = {
   jobId?: string;
 };
 
+// const data = [
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '1',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '2',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '3',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '4',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '5',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '6',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '7',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '8',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '9',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '10',
+//   },
+//   {
+//     name: 'Ashirbad',
+//     email: 'ashirbadbehera29@gmail.com',
+//     skills: 'some, alu, bara, tamatar ',
+//     id: '11',
+//   },
+// ];
+
 const ApplicationsModal: React.FC<modalPropType> = ({ isOpen, onClose, jobId }) => {
   const [loading, setLoading] = useState(false);
   const [candidates, setCandidates] = useState<candidateType[]>();
 
-  const fetchCandidatesApplied = () => {
+  const fetchCandidatesApplied = async () => {
     if (!jobId) return;
-    setLoading(true);
-    toast.promise(getApplications(jobId), {
-      success: (data) => {
-        console.log(data);
-        setCandidates(data);
-        setLoading(false);
-        return 'sucess';
-      },
-      error: (e) => {
-        return e.response.data.message || 'something went wrong';
-      },
-      loading: 'fetching candidates...',
-    });
+    try {
+      setLoading(true);
+      const data = await getApplications(jobId);
+      setCandidates(data);
+      setLoading(false);
+    } catch (e: any) {
+      toast.error(e.response.data.message || 'something went wrong');
+    }
   };
 
   useEffect(() => {
@@ -53,7 +117,7 @@ const ApplicationsModal: React.FC<modalPropType> = ({ isOpen, onClose, jobId }) 
         {candidates ? candidates.length : 0} applications
       </div>
 
-      <div className="h-[74vh] min-h-[20rem] bg-gray-300 mx-3 rounded-lg flex flex-wrap gap-6 p-2">
+      <div className="h-[74vh] min-h-[20rem] overflow-y-auto bg-gray-300 mx-3 rounded-lg flex flex-wrap gap-3 p-2">
         {loading && (
           <div className="flex-1 flex items-center justify-center">Loading...</div>
         )}

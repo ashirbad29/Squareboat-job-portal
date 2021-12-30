@@ -1,6 +1,7 @@
 import cx from 'clsx';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '../../components/Button';
@@ -19,6 +20,7 @@ const SignupPage = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<registerUserFormType>();
   const dispatch = useAppDispatch();
@@ -33,7 +35,22 @@ const SignupPage = () => {
       dispatch(login({ user: userData, authorization: token }));
       navigate('../home', { replace: true });
     } catch (e: any) {
-      console.log(e);
+      const errors = e.response?.data?.errors;
+      if (!errors) toast.error('something went wrong');
+
+      for (const error of errors) {
+        const [name, message] = Object.entries(error)[0];
+        if (
+          (name === 'email' ||
+            name === 'name' ||
+            name === 'password' ||
+            name === 'skills' ||
+            name === 'confirmPassword') &&
+          typeof message === 'string'
+        ) {
+          setError(name, { message: message });
+        }
+      }
     }
   };
 
@@ -83,7 +100,7 @@ const SignupPage = () => {
           />
           {errors.name && (
             <span className="inline-block ml-auto text-xs text-red-400 h-0">
-              The field is mandatory.
+              {errors.name.message || 'The field is mandatory.'}
             </span>
           )}
 
@@ -102,7 +119,7 @@ const SignupPage = () => {
           />
           {errors.email && (
             <span className="inline-block ml-auto text-xs text-red-400 h-0">
-              The field is mandatory.
+              {errors.email.message || 'The field is mandatory.'}
             </span>
           )}
 
@@ -123,7 +140,7 @@ const SignupPage = () => {
               />
               {errors.password && (
                 <span className="inline-block ml-auto text-xs text-red-400 h-0">
-                  The field is mandatory.
+                  {errors.password.message || 'The field is mandatory.'}
                 </span>
               )}
             </div>
@@ -144,7 +161,7 @@ const SignupPage = () => {
               />
               {errors.confirmPassword && (
                 <span className="inline-block ml-auto text-xs text-red-400 h-0">
-                  The field is mandatory.
+                  {errors.confirmPassword.message || 'The field is mandatory.'}
                 </span>
               )}
             </div>

@@ -13,7 +13,11 @@ export const getJobsByUser = async (pageNo: number) => {
       page: pageNo,
     },
   });
-  return { data: data.data.data, meta: data.data.metadata };
+  if (data.data) {
+    return { data: data.data.data, meta: data.data.metadata };
+  } else {
+    return { data: [] };
+  }
 };
 
 export const getApplications = async (jobId: string, pageNo?: number) => {

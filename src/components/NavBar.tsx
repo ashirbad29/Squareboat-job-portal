@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link, useLocation } from 'react-router-dom';
 
 import { logout, useAuthState } from '../state/authSlice';
@@ -20,6 +21,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    toast.success('Logged out sucessful');
     removeFromLocalStorage('auth-user');
   };
 

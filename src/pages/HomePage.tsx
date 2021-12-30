@@ -28,6 +28,11 @@ const HomePage = () => {
       try {
         setLoading(true);
         const { data, meta } = await getJobsByUser(pagination.currPage);
+        if (data.length === 0) {
+          setJobs([]);
+          setLoading(false);
+          return;
+        }
         setPagination({
           ...pagination,
           total: meta.count,
@@ -64,7 +69,7 @@ const HomePage = () => {
           </div>
         )}
 
-        {!loading && jobs && jobs.length && (
+        {!loading && jobs && jobs.length > 0 && (
           <div className="flex self-baseline mx-auto gap-2 mb-8 text-sm items-center">
             <span
               onClick={() => {
