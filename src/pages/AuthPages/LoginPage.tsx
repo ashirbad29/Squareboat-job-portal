@@ -35,9 +35,15 @@ const LoginPage = () => {
       // @ts-ignore
       navigate(state?.path || '../home', { replace: true });
     } catch (e: any) {
-      setError('password', {
-        message: e.response.data.message || 'something went wrong',
-      });
+      const errors = e.response?.data?.errors;
+      if (!errors) setError('password', { message: 'something went wrong' });
+
+      for (const error of errors) {
+        const [name, message] = Object.entries(error)[0];
+        if ((name === 'email' || name === 'password') && typeof message === 'string') {
+          setError(name, { message: message });
+        }
+      }
     }
   };
 
@@ -65,7 +71,7 @@ const LoginPage = () => {
           />
           {errors.email && (
             <span className="inline-block ml-auto text-xs text-red-400 h-0">
-              can&apos;t be empty
+              {errors.email.message || `can't be empty`}
             </span>
           )}
 

@@ -69,7 +69,7 @@ const SignupPage = () => {
               onClick={() => setUserType('recruiter')}
               type="button"
               className={cx({
-                'bg-gray-100 text-not-dark-blue ring-1 ring-gray-300 hover:bg-gray-300 !transition-colors':
+                'bg-gray-100 !text-not-dark-blue ring-1 ring-gray-300 hover:bg-gray-300 !transition-colors':
                   userType !== 'recruiter',
               })}>
               Recruiter
@@ -78,7 +78,7 @@ const SignupPage = () => {
               onClick={() => setUserType('candidate')}
               type="button"
               className={cx({
-                'bg-gray-100 text-not-dark-blue ring-1 ring-gray-300 hover:bg-gray-300 !transition-colors':
+                'bg-gray-100 !text-not-dark-blue ring-1 ring-gray-300 hover:bg-gray-300 !transition-colors':
                   userType !== 'candidate',
               })}>
               Candidate
