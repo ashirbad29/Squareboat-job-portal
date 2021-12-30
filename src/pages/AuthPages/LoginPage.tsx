@@ -36,7 +36,10 @@ const LoginPage = () => {
       navigate(state?.path || '../home', { replace: true });
     } catch (e: any) {
       const errors = e.response?.data?.errors;
-      if (!errors) setError('password', { message: 'something went wrong' });
+      if (!errors)
+        setError('password', {
+          message: e.response.data.message || 'something went wrong',
+        });
 
       for (const error of errors) {
         const [name, message] = Object.entries(error)[0];

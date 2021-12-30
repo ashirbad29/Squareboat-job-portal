@@ -27,6 +27,11 @@ const SignupPage = () => {
 
   const onSubmit: SubmitHandler<registerUserFormType> = async (userInput) => {
     const userRole = userType === 'recruiter' ? 0 : 1;
+    if (userType === 'candidate') {
+      toast.error('For now only Recruiters can sigup');
+      return;
+    }
+
     try {
       const data = await registerUser({ ...userInput, userRole });
       saveToLocalStoage('auth-user', data);

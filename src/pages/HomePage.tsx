@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-import { ChevronLeft, ChevronRight } from '../assets/icons';
+import { ChevronLeft, ChevronRight, PencilNoteIcon } from '../assets/icons';
 import ApplicationModal from '../components/ApplicatIonsModal';
 import Button from '../components/Button';
 import JobPostCard from '../components/cards/JobPostCard';
@@ -110,6 +110,7 @@ const HomePage = () => {
       <div className="flex-1 min-h-full flex items-center justify-center">
         {!loading && (!jobs || jobs.length === 0) && (
           <div className="flex flex-col  items-center">
+            <PencilNoteIcon className="h-16 w-16 mb-5 text-gray-500" />
             <span className="text-gray-500">Your posted jobs will show here</span>
             <Button className="w-max mt-6 px-4 py-2">
               <Link to="/home/post-job">Post a job</Link>
