@@ -8,6 +8,7 @@ import ApplicationModal from '../components/ApplicatIonsModal';
 import Button from '../components/Button';
 import JobPostCard from '../components/cards/JobPostCard';
 import Header from '../components/Header';
+import Spinner from '../components/Spinner';
 import { getJobsByUser } from '../services/jobs.service';
 import { jobType } from '../types/jobs';
 import { getTotalPage } from '../utils/misc';
@@ -54,6 +55,11 @@ const HomePage = () => {
       <Header variant="sm" className="relative">
         <h1 className="mt-4 text-xl">Jobs posted by you</h1>
       </Header>
+      {loading && (
+        <div className="flex-1 flex items-center justify-center mt-">
+          <Spinner className="h-6 w-6" />
+        </div>
+      )}
       <section className="absolute w-full max-w-4xl mx-auto top-32 mb-10 flex flex-col gap-5">
         {!loading && jobs && (
           <div className="flex flex-wrap gap-4 mt-4">
