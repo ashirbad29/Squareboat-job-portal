@@ -1,11 +1,11 @@
-import goldline from '../../assests/companies/goldline.png';
-import ideaa from '../../assests/companies/ideaa.png';
-import kanba from '../../assests/companies/kanba.png';
-import lighting from '../../assests/companies/lighting.png';
-import liva from '../../assests/companies/liva.png';
-import solaytic from '../../assests/companies/solaytic.png';
-import veclocity9 from '../../assests/companies/velocity-9.png';
-import ztos from '../../assests/companies/ztos.png';
+import goldline from '../assets/companies/goldline.png';
+import ideaa from '../assets/companies/ideaa.png';
+import kanba from '../assets/companies/kanba.png';
+import lighting from '../assets/companies/lighting.png';
+import liva from '../assets/companies/liva.png';
+import solaytic from '../assets/companies/solaytic.png';
+import veclocity9 from '../assets/companies/velocity-9.png';
+import ztos from '../assets/companies/ztos.png';
 
 export const companiesData = [
   {

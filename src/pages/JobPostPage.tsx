@@ -28,7 +28,6 @@ const JobPostPage = () => {
       },
       loading: 'posting your job...',
       error: (e: any) => {
-        console.log(e.response.data.message);
         return e.response.data.message;
       },
     });

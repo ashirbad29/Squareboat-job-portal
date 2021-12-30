@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import heroImage from '../../assests/hero-image.jpg';
+import heroImage from '../assets/hero-image.jpg';
 import Header from '../components/Header';
 import { companiesData } from '../data/companies';
 import { cardData } from '../data/landingPageCardData';

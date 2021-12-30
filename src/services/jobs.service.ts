@@ -7,7 +7,11 @@ export const postJob = async (jobDetails: jobPostType) => {
   return data.data;
 };
 
-export const getJobsByUser = async () => {
-  const { data } = await axios.get(API_ENDPOINTS.RECRUITER_POSTED_JOBS);
-  return data.data;
+export const getJobsByUser = async (pageNo: number) => {
+  const { data } = await axios.get(API_ENDPOINTS.RECRUITER_POSTED_JOBS, {
+    params: {
+      page: pageNo,
+    },
+  });
+  return { data: data.data.data, meta: data.data.metadata };
 };

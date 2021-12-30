@@ -14,7 +14,6 @@ const routes = [
 
 const BreadCrumbs = () => {
   const { pathname } = useLocation();
-  console.log(location);
 
   const currRoutes = useMemo(() => {
     return pathname.slice(1).split('/');
@@ -22,7 +21,7 @@ const BreadCrumbs = () => {
 
   let routeResolved = '';
   return (
-    <div className="flex w-full max-w-3xl mx-auto mt-2">
+    <div className="flex w-full max-w-4xl mx-auto mt-2">
       {currRoutes.map((route, idx) => {
         const currRoute = routes.find((val) => val.key === route);
         routeResolved = routeResolved.concat(`/${currRoute?.key}`);

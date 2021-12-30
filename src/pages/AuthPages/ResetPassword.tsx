@@ -35,7 +35,6 @@ const ResetPassword = () => {
           return 'password reset sucessfull';
         },
         error: (e) => {
-          console.log(e.response.data.message);
           return e.response.data.message;
         },
       }
