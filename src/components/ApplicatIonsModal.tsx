@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { CrossIcon, UsersIcon } from '../assets/icons';
 import { getApplications } from '../services/jobs.service';
 import { candidateType } from '../types/jobs';
-import CandidateCard from './HomeComponents/CandidateCard';
+import CandidateCard from './cards/CandidateCard';
 import Modal from './Modal';
 
 type modalPropType = {

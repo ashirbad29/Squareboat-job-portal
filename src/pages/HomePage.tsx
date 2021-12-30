@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-import { ChevronLeft, ChevronRight, LocationIcon } from '../assets/icons';
+import { ChevronLeft, ChevronRight } from '../assets/icons';
 import ApplicationModal from '../components/ApplicatIonsModal';
 import Button from '../components/Button';
+import JobPostCard from '../components/cards/JobPostCard';
 import Header from '../components/Header';
 import { getJobsByUser } from '../services/jobs.service';
 import { jobType } from '../types/jobs';
-import { getTotalPage, truncateString } from '../utils/misc';
+import { getTotalPage } from '../utils/misc';
 
 const HomePage = () => {
   const [jobs, setJobs] = useState<jobType[]>();
@@ -43,27 +44,6 @@ const HomePage = () => {
     fetchJobs();
   }, [pagination.currPage]);
 
-  // const fetchCandidatesApplied = () => {
-  //   if (!modalState.activeJobId) return;
-
-  //   toast.promise(getApplications(modalState.activeJobId), {
-  //     success: (data) => {
-  //       console.log(data);
-  //       return 'sucess';
-  //     },
-  //     error: (e) => {
-  //       return e.response.data.message || 'something went wrong';
-  //     },
-  //     loading: 'fetching candidates...',
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   if (modalState.activeJobId) {
-  //     fetchCandidatesApplied();
-  //   }
-  // }, [modalState.activeJobId]);
-
   return (
     <div className="relative min-h-screen overflow-auto flex flex-col items-center bg-light-sky">
       <Header variant="sm" className="relative">
@@ -73,27 +53,13 @@ const HomePage = () => {
         {!loading && jobs && (
           <div className="flex flex-wrap gap-4 mt-4">
             {jobs.map((job) => (
-              <div
+              <JobPostCard
                 key={job.id}
-                className="py-3 px-3 flex w-full flex-col max-w-[270px] bg-white shadow-md text-not-dark-blue rounded-md">
-                <h3 className="text-xl font-medium">{job.title}</h3>
-                <p className="text-sm mt-1 mb-2 max-h-14 break-all">
-                  {truncateString(job.description, 100)}
-                </p>
-                <div className="w-full flex gap-4 justify-between mt-auto self-baseline">
-                  <div className="flex items-center gap-1">
-                    <LocationIcon className="h-4 w-4 text-primary-sky" />
-                    <span className="capitalize text-bas">
-                      {truncateString(job.location, 8)}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => setModalState({ isOpen: true, activeJobId: job.id })}
-                    className="text-sm bg-sky-200 px-2 py-1 rounded">
-                    view applications
-                  </button>
-                </div>
-              </div>
+                {...job}
+                onViewApplication={() =>
+                  setModalState({ isOpen: true, activeJobId: job.id })
+                }
+              />
             ))}
           </div>
         )}
