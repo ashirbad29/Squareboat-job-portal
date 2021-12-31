@@ -41,7 +41,7 @@ const SignupPage = () => {
       navigate('../home', { replace: true });
     } catch (e: any) {
       const errors = e.response?.data?.errors;
-      if (!errors) toast.error('something went wrong');
+      if (!errors) toast.error(e.response?.data?.message || 'something went wrong');
 
       for (const error of errors) {
         const [name, message] = Object.entries(error)[0];

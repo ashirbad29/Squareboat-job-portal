@@ -38,7 +38,7 @@ const LoginPage = () => {
       const errors = e.response?.data?.errors;
       if (!errors)
         setError('password', {
-          message: e.response.data.message || 'something went wrong',
+          message: e.response?.data?.message || 'something went wrong',
         });
 
       for (const error of errors) {

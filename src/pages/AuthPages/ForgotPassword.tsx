@@ -59,7 +59,7 @@ const ForgotPassword = () => {
           />
           {errors.email && (
             <span className="inline-block ml-auto  text-xs text-red-400 h-0">
-              {errors.email.message || `can&apos;t be empty`}
+              {errors.email.message || `can't be empty`}
             </span>
           )}
 
