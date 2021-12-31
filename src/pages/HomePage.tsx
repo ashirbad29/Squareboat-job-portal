@@ -60,9 +60,9 @@ const HomePage = () => {
           <Spinner className="h-6 w-6" />
         </div>
       )}
-      <section className="absolute w-full max-w-4xl mx-auto top-32 mb-10 flex flex-col gap-5">
+      <section className="absolute w-full max-w-4xl mx-auto top-32 mb-10 px-5 md:px-0 flex flex-col gap-5">
         {!loading && jobs && (
-          <div className="flex flex-wrap gap-4 mt-4">
+          <div className="flex flex-wrap gap-4 mt-4 w-full">
             {jobs.map((job) => (
               <JobPostCard
                 key={job.id}
